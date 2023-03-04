@@ -138,7 +138,7 @@ import setMaterialInput from "@/assets/js/material-input";
         <div id="app" class="container">{{ data }}
 
 
-            <!-- <div class="row" style="width:50%;margin-left:auto;margin-right:10px;">
+            <div class="row" style="width:50%;margin-left:auto;margin-right:10px;">
                 <label class="col-lg-3 form-label">篩選</label>
                 <input type="text" class="col-lg-7 form-control" v-model="filter" placeholder="請輸入關鍵字" />
                 <button class="btn btn-outline-secondary" @@click="filterEmployee">篩選</button>
@@ -224,7 +224,7 @@ import setMaterialInput from "@/assets/js/material-input";
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div> 
 
 
 
@@ -244,173 +244,157 @@ import setMaterialInput from "@/assets/js/material-input";
 
 
 <script>
-var webApiBaseAddr = "https://localhost:7226";
-Vueaxios.createApp({
-    data() {
-        return {
-            data:[]
-        }
-    },
-    methods: {
-        
-    },
-    mounted:function() {
-        axios.get(`${webApiBaseAddr}/api/Employees/`).then((response)=>{
-            console.log(response);
-            
-        })
-    },
-}).mount("#app");
-            // var webApiBaseAddr = "https://localhost:7226";
-            // var vueApp = {
-            //     data() {
-            //         return {
-            //             employeeDTOes: [],
-            //             filter: "", //無值給字串
-            //             employeeId: null,
-            //             firstName: null,
-            //             lastName: null,
-            //             title: null,
-            //             firstNameOld: null,
-            //             lastNameOld: null,
-            //             titleOld: null,
-            //         };
-            //     },
-            //     mounted: function () {
-            //         let _this = this; //保留原資料在this
-            //         _this.getEmployeeDTOes();
 
-            //     },
-            //     methods: {
-            //         getEmployeeDTOes: function () { //呼叫後端EmployeeController資料
-            //             let _this = this;
-            //             axios.get(`${webApiBaseAddr}/api/Employees`).then(response => {
-            //                 //alert(JSON.stringify(response.data));
-            //                 _this.employeeDTOes = response.data;
-            //                 var employeeList = [];
-            //                 for (var i = 0; i < _this.employeeDTOes.length; i++) {
-            //                     var item = _this.employeeDTOes[i];
-            //                     item.Edit = false;
-            //                     employeeList.push(item);
-            //                 }
-            //                 _this.employeeDTOes = employeeList;
-            //             });
-            //         },
+            var webApiBaseAddr = "https://localhost:7226";
+            var vueApp = {
+                data() {
+                    return {
+                        employeeDTOes: [],
+                        filter: "", //無值給字串
+                        employeeId: null,
+                        firstName: null,
+                        lastName: null,
+                        title: null,
+                        firstNameOld: null,
+                        lastNameOld: null,
+                        titleOld: null,
+                    };
+                },
+                mounted: function () {
+                    let _this = this; //保留原資料在this
+                    _this.getEmployeeDTOes();
 
-            //         filterEmployee: function () {
-            //             // alert("filter");
-            //             let _this = this;
-            //             var p = {
-            //                 FirstName: _this.filter,
-            //                 LastName: _this.filter,
-            //                 Title: _this.filter
-            //             }
-            //             axios.post(`${webApiBaseAddr}/api/Employees/Filter`, p).then(response => {
-            //                 //alert(JSON.stringify(response.data));
-            //                 _this.employeeDTOes = response.data;
-            //                 var employeeList = [];
-            //                 for (var i = 0; i < _this.employeeDTOes.length; i++) {
-            //                     var item = _this.employeeDTOes[i];
-            //                     item.Edit = false;
-            //                     employeeList.push(item);
-            //                 }
-            //                 _this.employeeDTOes = employeeList;
-            //             });
+                },
+                methods: {
+                    getEmployeeDTOes: function () { //呼叫後端EmployeeController資料
+                        let _this = this;
+                        axios.get(`${webApiBaseAddr}/api/Employees`).then(response => {
+                            //alert(JSON.stringify(response.data));
+                            _this.employeeDTOes = response.data;
+                            var employeeList = [];
+                            for (var i = 0; i < _this.employeeDTOes.length; i++) {
+                                var item = _this.employeeDTOes[i];
+                                item.Edit = false;
+                                employeeList.push(item);
+                            }
+                            _this.employeeDTOes = employeeList;
+                        });
+                    },
 
-            //         },
+                    filterEmployee: function () {
+                        // alert("filter");
+                        let _this = this;
+                        var p = {
+                            FirstName: _this.filter,
+                            LastName: _this.filter,
+                            Title: _this.filter
+                        }
+                        axios.post(`${webApiBaseAddr}/api/Employees/Filter`, p).then(response => {
+                            //alert(JSON.stringify(response.data));
+                            _this.employeeDTOes = response.data;
+                            var employeeList = [];
+                            for (var i = 0; i < _this.employeeDTOes.length; i++) {
+                                var item = _this.employeeDTOes[i];
+                                item.Edit = false;
+                                employeeList.push(item);
+                            }
+                            _this.employeeDTOes = employeeList;
+                        });
 
-            //         edit: function (employeeId) {
-            //             //alert("edit");
-            //             let _this = this;
-            //             var employeeList = [];
-            //             for (var i = 0; i < _this.employeeDTOes.length; i++) {
-            //                 var item = _this.employeeDTOes[i];
-            //                 if (item.employeeId == employeeId) {
-            //                     item.Edit = true;
-            //                     _this.firstNameOld = item.firstName;
-            //                     _this.lastNameOld = item.lastName;
-            //                     _this.titleOld = item.title;
+                    },
 
-            //                 }//_this:取用自己的data model
-            //                 else {
-            //                     item.Edit = false;
-            //                 }
-            //                 employeeList.push(item);
-            //             }
-            //             _this.employeeDTOes = employeeList;
-            //         },
+                    edit: function (employeeId) {
+                        //alert("edit");
+                        let _this = this;
+                        var employeeList = [];
+                        for (var i = 0; i < _this.employeeDTOes.length; i++) {
+                            var item = _this.employeeDTOes[i];
+                            if (item.employeeId == employeeId) {
+                                item.Edit = true;
+                                _this.firstNameOld = item.firstName;
+                                _this.lastNameOld = item.lastName;
+                                _this.titleOld = item.title;
 
-            //         cancel: function () {
-            //             //alert("cancel");
-            //             let _this = this;
-            //             var employeeList = [];
-            //             for (var i = 0; i < _this.employeeDTOes.length; i++) {
-            //                 var item = _this.employeeDTOes[i];
-            //                 if (item.Edit == true) {
-            //                     item.Edit = false;
-            //                     item.firstName = _this.firstNameOld;
-            //                     item.lastName = _this.lastNameOld;
-            //                     item.Title = _this.TitleOld;
-            //                 }
-            //                 employeeList.push(item);
-            //             }
-            //             _this.employeeDTOes = employeeList;
+                            }//_this:取用自己的data model
+                            else {
+                                item.Edit = false;
+                            }
+                            employeeList.push(item);
+                        }
+                        _this.employeeDTOes = employeeList;
+                    },
 
-            //         },
+                    cancel: function () {
+                        //alert("cancel");
+                        let _this = this;
+                        var employeeList = [];
+                        for (var i = 0; i < _this.employeeDTOes.length; i++) {
+                            var item = _this.employeeDTOes[i];
+                            if (item.Edit == true) {
+                                item.Edit = false;
+                                item.firstName = _this.firstNameOld;
+                                item.lastName = _this.lastNameOld;
+                                item.Title = _this.TitleOld;
+                            }
+                            employeeList.push(item);
+                        }
+                        _this.employeeDTOes = employeeList;
 
-            //         update: function (item) {
-            //             //alert("update");
-            //             let _this = this;
-            //             var p = {
-            //                 EmployeeId: item.employeeId,
-            //                 FirstName: item.firstName,
-            //                 LastName: item.lastName,
-            //                 Title: item.title
-            //             }
-            //             axios.put(`${webApiBaseAddr}/api/Employees/${item.employeeId}`, p).then(response => {
-            //                 alert(response.data);
-            //                 _this.filterEmployee();
-            //                 _this.cancel();
-            //             })
-            //         },
+                    },
 
-            //         deleteEmployee: function (employeeId) {
-            //             //alert("delete");
-            //             let _this = this;
-            //             var ret = confirm("確定要刪除嗎?");
-            //             if (ret == true) {
-            //                 axios.delete(`${webApiBaseAddr}/api/Employees/${employeeId}`).then(response => {
-            //                     alert(response.data);
+                    update: function (item) {
+                        //alert("update");
+                        let _this = this;
+                        var p = {
+                            EmployeeId: item.employeeId,
+                            FirstName: item.firstName,
+                            LastName: item.lastName,
+                            Title: item.title
+                        }
+                        axios.put(`${webApiBaseAddr}/api/Employees/${item.employeeId}`, p).then(response => {
+                            alert(response.data);
+                            _this.filterEmployee();
+                            _this.cancel();
+                        })
+                    },
 
-            //                     _this.filterEmployee();
+                    deleteEmployee: function (employeeId) {
+                        //alert("delete");
+                        let _this = this;
+                        var ret = confirm("確定要刪除嗎?");
+                        if (ret == true) {
+                            axios.delete(`${webApiBaseAddr}/api/Employees/${employeeId}`).then(response => {
+                                alert(response.data);
 
-            //                 });
-            //             }
+                                _this.filterEmployee();
+
+                            });
+                        }
                         
-            //         },
-            //         showModal: function () {
-            //             //alert("showModal");
-            //             $('#insertModal').modal('show');
-            //         },
+                    },
+                    showModal: function () {
+                        //alert("showModal");
+                        $('#insertModal').modal('show');
+                    },
 
-            //         insert: function () {
-            //             //alert("insert");
-            //             let _this = this;
-            //             var p = {
-            //                 EmployeeId: 0,
-            //                 FirstName: _this.firstName,
-            //                 LastName: _this.lastName,
-            //                 Title: _this.title
-            //             };
-            //             axios.post(`${webApiBaseAddr}/api/Employees`, p).then(response => {
-            //                 alert(response.data);
-            //                 window.location = "/Home/VUESPA";
-            //             });
-            //         },
+                    insert: function () {
+                        //alert("insert");
+                        let _this = this;
+                        var p = {
+                            EmployeeId: 0,
+                            FirstName: _this.firstName,
+                            LastName: _this.lastName,
+                            Title: _this.title
+                        };
+                        axios.post(`${webApiBaseAddr}/api/Employees`, p).then(response => {
+                            alert(response.data);
+                            window.location = "/Home/VUESPA";
+                        });
+                    },
 
-            //     }
-            // };
-            // // var app = Vue.createApp(vueApp).mount("#app");
+                }
+            };
+             var app = Vue.createApp(vueApp).mount("#app");
 </script>
     
 
